@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from '../components/Logo';
 
-const ACCENT = '#0F766E';
 const TINT_BG = '#CCFBF1';
 const HEADING = '#1E293B';
 const BODY = '#475569';
@@ -60,13 +59,21 @@ function IconClipboard({ className }: { className?: string }) {
   );
 }
 
-function AvatarFace({ className }: { className?: string }) {
+const avatarPalettes = {
+  teal: { bg: '#CCFBF1', feature: '#0F766E' },
+  sky: { bg: '#E0F2FE', feature: '#0369A1' },
+  slate: { bg: '#E2E8F0', feature: '#334155' },
+  emerald: { bg: '#D1FAE5', feature: '#047857' },
+} as const;
+
+function AvatarFace({ className, variant = 'teal' }: { className?: string; variant?: keyof typeof avatarPalettes }) {
+  const { bg, feature } = avatarPalettes[variant];
   return (
     <svg viewBox="0 0 40 40" className={className} aria-hidden>
-      <circle cx="20" cy="20" r="20" fill="#E2E8F0" />
-      <circle cx="14" cy="17" r="2.5" fill="#64748B" />
-      <circle cx="26" cy="17" r="2.5" fill="#64748B" />
-      <path d="M12 26c2.5 3 5.5 4.5 8 4.5s5.5-1.5 8-4.5" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="20" cy="20" r="20" fill={bg} />
+      <circle cx="14" cy="17" r="2.5" fill={feature} />
+      <circle cx="26" cy="17" r="2.5" fill={feature} />
+      <path d="M12 26c2.5 3 5.5 4.5 8 4.5s5.5-1.5 8-4.5" fill="none" stroke={feature} strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
@@ -152,16 +159,17 @@ export function LandingPage() {
   return (
     <div className="min-h-screen bg-[#FFFFFF] antialiased" style={{ color: BODY }}>
       <div className="pointer-events-none fixed left-0 right-0 top-0 z-[100] h-1 w-full" aria-hidden>
-        <div className="h-full transition-all duration-75 ease-out" style={{ width: `${scrollProgress}%`, backgroundColor: ACCENT }} />
+        <div
+          className="h-full bg-teal-500 transition-all duration-75 ease-out"
+          style={{ width: `${scrollProgress}%` }}
+        />
       </div>
 
       <header className="mt-1 border-b border-slate-200 bg-[#FFFFFF]">
         <nav className={`${t.max} flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between`}>
           <Link to="/" className="flex items-center gap-[10px] self-center md:self-auto">
             <Logo className="shrink-0" />
-            <span className="text-2xl font-bold leading-none" style={{ color: HEADING }}>
-              VolunteerFlow
-            </span>
+            <span className="text-2xl font-bold leading-none text-teal-600">VolunteerFlow</span>
           </Link>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8">
             <Link
@@ -182,7 +190,7 @@ export function LandingPage() {
 
       {/* Hero */}
       <section
-        className="flex min-h-screen flex-col justify-center border-b border-slate-100 bg-[#FFFFFF] py-16 lg:py-24"
+        className="flex min-h-screen flex-col justify-center border-b border-slate-100 bg-gradient-to-br from-teal-50 via-white to-slate-50 py-16 lg:py-24"
         aria-labelledby="hero-heading"
       >
         <div className={`${t.max} flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16`}>
@@ -192,8 +200,8 @@ export function LandingPage() {
               className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-6xl lg:leading-[1.05]"
               style={{ color: HEADING }}
             >
-              The volunteer platform your{' '}
-              <span className="text-teal-600">nonprofit</span> actually needs
+              The volunteer platform your <span className="text-teal-600">nonprofit</span>{' '}
+              <span className="text-teal-600">actually needs</span>
             </h1>
             <p className={`mt-6 max-w-xl ${t.body}`}>
               One place for applications, events, hour approvals, and document review—so program staff spend less time in inboxes and more time with volunteers.
@@ -201,7 +209,7 @@ export function LandingPage() {
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
               <a
                 href="#features"
-                className={`inline-flex items-center justify-center rounded-xl bg-[#0F766E] px-6 py-3 text-center text-base font-semibold text-white hover:bg-teal-600 ${t.transition} hover:scale-[1.02] active:scale-[0.98]`}
+                className={`inline-flex items-center justify-center rounded-xl bg-teal-600 px-6 py-3 text-center text-base font-semibold text-white shadow-lg shadow-teal-200 hover:bg-teal-500 ${t.transition} hover:scale-[1.02] active:scale-[0.98]`}
               >
                 Get started
               </a>
@@ -216,10 +224,10 @@ export function LandingPage() {
               <p className="text-sm font-semibold text-slate-600">Trusted by 500+ nonprofits</p>
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
-                  <AvatarFace className="relative z-[1] h-10 w-10 rounded-full ring-2 ring-white" />
-                  <AvatarFace className="relative z-[2] h-10 w-10 rounded-full ring-2 ring-white" />
-                  <AvatarFace className="relative z-[3] h-10 w-10 rounded-full ring-2 ring-white" />
-                  <AvatarFace className="relative z-[4] h-10 w-10 rounded-full ring-2 ring-white" />
+                  <AvatarFace variant="teal" className="relative z-[1] h-10 w-10 rounded-full ring-2 ring-white" />
+                  <AvatarFace variant="sky" className="relative z-[2] h-10 w-10 rounded-full ring-2 ring-white" />
+                  <AvatarFace variant="slate" className="relative z-[3] h-10 w-10 rounded-full ring-2 ring-white" />
+                  <AvatarFace variant="emerald" className="relative z-[4] h-10 w-10 rounded-full ring-2 ring-white" />
                 </div>
                 <StarsFive />
               </div>
@@ -238,8 +246,8 @@ export function LandingPage() {
           <h2 className={`mt-3 text-4xl ${t.heading}`}>Built for real coordination work</h2>
           <p className={`mt-4 max-w-2xl ${t.body}`}>Role-aware workflows keep volunteers, organizers, and admins aligned without duplicate data entry.</p>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-            <article className="rounded-2xl border border-slate-100 bg-white p-8 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:border-teal-300 hover:shadow-lg">
-              <div className="inline-flex rounded-xl bg-teal-50 p-3 text-teal-700">
+            <article className="rounded-2xl border border-slate-100 bg-white p-8 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:border-teal-400 hover:shadow-lg hover:shadow-teal-100">
+              <div className="inline-flex rounded-xl bg-teal-50 p-3 text-teal-600">
                 <IconUsers className="h-8 w-8" />
               </div>
               <h3 className="mt-6 text-xl font-bold text-slate-800">Manage volunteers</h3>
@@ -247,8 +255,8 @@ export function LandingPage() {
                 Profiles, skills, and availability stay current so coordinators match people to shifts without digging through attachments.
               </p>
             </article>
-            <article className="rounded-2xl border border-slate-100 bg-white p-8 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:border-teal-300 hover:shadow-lg">
-              <div className="inline-flex rounded-xl bg-teal-50 p-3 text-teal-700">
+            <article className="rounded-2xl border border-slate-100 bg-white p-8 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:border-teal-400 hover:shadow-lg hover:shadow-teal-100">
+              <div className="inline-flex rounded-xl bg-sky-50 p-3 text-sky-600">
                 <IconClock className="h-8 w-8" />
               </div>
               <h3 className="mt-6 text-xl font-bold text-slate-800">Track hours</h3>
@@ -256,8 +264,8 @@ export function LandingPage() {
                 Volunteers submit hours tied to events; admins approve in bulk for finance and grant reporting with a clear history.
               </p>
             </article>
-            <article className="rounded-2xl border border-slate-100 bg-white p-8 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:border-teal-300 hover:shadow-lg">
-              <div className="inline-flex rounded-xl bg-teal-50 p-3 text-teal-700">
+            <article className="rounded-2xl border border-slate-100 bg-white p-8 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:border-teal-400 hover:shadow-lg hover:shadow-teal-100">
+              <div className="inline-flex rounded-xl bg-emerald-50 p-3 text-emerald-600">
                 <IconDocCheck className="h-8 w-8" />
               </div>
               <h3 className="mt-6 text-xl font-bold text-slate-800">Approve documents</h3>
@@ -301,11 +309,13 @@ export function LandingPage() {
               },
             ].map((step) => (
               <div key={step.n} className="relative rounded-2xl border border-slate-100 bg-white p-8 shadow-sm transition-all duration-200 ease-in-out hover:border-teal-300">
-                <span className="pointer-events-none absolute left-6 top-4 z-0 select-none text-5xl font-black leading-none text-teal-100">
+                <span className="pointer-events-none absolute left-6 top-4 z-0 select-none text-5xl font-black leading-none text-teal-200">
                   {step.n}
                 </span>
                 <div className="relative z-10 pt-10">
-                  <step.Icon className="h-8 w-8 text-teal-700" />
+                  <div className="inline-flex rounded-xl bg-teal-600 p-3 text-white">
+                    <step.Icon className="h-8 w-8" />
+                  </div>
                   <h3 className="mt-4 text-xl font-bold text-slate-800">{step.title}</h3>
                   <p className={`mt-3 ${t.body}`}>{step.body}</p>
                 </div>
@@ -316,7 +326,7 @@ export function LandingPage() {
       </section>
 
       {/* Stats */}
-      <section className="border-y border-slate-800 bg-[#0F172A] py-16 text-white md:py-20">
+      <section className="border-b border-slate-800 border-t-2 border-teal-500 bg-[#0F172A] py-16 text-white md:py-20">
         <div className={`${t.max} grid grid-cols-1 gap-10 text-center sm:grid-cols-2 lg:grid-cols-4 lg:gap-8`}>
           {[
             { v: '500+', l: 'Volunteers' },
@@ -325,7 +335,7 @@ export function LandingPage() {
             { v: '500+', l: 'Nonprofits' },
           ].map((s) => (
             <div key={s.l}>
-              <p className="text-5xl font-extrabold text-teal-400">{s.v}</p>
+              <p className="text-5xl font-extrabold text-teal-300">{s.v}</p>
               <p className="mt-3 text-sm font-medium uppercase tracking-wide text-slate-400">{s.l}</p>
             </div>
           ))}
@@ -340,6 +350,7 @@ export function LandingPage() {
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
               {
+                accent: 'teal' as const,
                 quote:
                   'Managing 200 volunteers across 12 events used to mean spreadsheets and constant email. VolunteerFlow cut our coordination time in half.',
                 name: 'Jordan Ellis',
@@ -347,6 +358,7 @@ export function LandingPage() {
                 org: 'Community Food Network',
               },
               {
+                accent: 'sky' as const,
                 quote:
                   'Approvals and hour logs finally live in one system our board can trust. Grant season is less painful every year.',
                 name: 'Sam Rivera',
@@ -354,6 +366,7 @@ export function LandingPage() {
                 org: 'Riverfront Arts Alliance',
               },
               {
+                accent: 'emerald' as const,
                 quote:
                   'We onboard seasonal help in days instead of weeks. Organizers see applications without me forwarding PDFs.',
                 name: 'Morgan Chen',
@@ -363,7 +376,13 @@ export function LandingPage() {
             ].map((c) => (
               <blockquote
                 key={c.name}
-                className="rounded-2xl border border-slate-100 border-l-4 border-l-teal-500 bg-white p-6 shadow-sm transition-all duration-200 ease-in-out hover:border-l-teal-600 hover:shadow-md"
+                className={`rounded-2xl border border-slate-100 border-l-4 p-6 shadow-sm transition-all duration-200 ease-in-out hover:shadow-md ${
+                  c.accent === 'teal'
+                    ? 'border-l-teal-500 bg-teal-50/40 hover:border-l-teal-600'
+                    : c.accent === 'sky'
+                      ? 'border-l-sky-500 bg-sky-50/40 hover:border-l-sky-600'
+                      : 'border-l-emerald-500 bg-emerald-50/40 hover:border-l-emerald-600'
+                }`}
               >
                 <p className="text-base leading-relaxed text-slate-600">&ldquo;{c.quote}&rdquo;</p>
                 <footer className="mt-6 border-t border-slate-100 pt-4">
@@ -379,8 +398,24 @@ export function LandingPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-gradient-to-r from-teal-700 to-teal-500 py-20 md:py-28" aria-labelledby="cta-heading">
-        <div className={`${t.max} text-center`}>
+      <section
+        className="relative overflow-hidden bg-gradient-to-r from-teal-800 via-teal-600 to-teal-500 py-20 md:py-28"
+        aria-labelledby="cta-heading"
+      >
+        <svg
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-10"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden
+        >
+          <defs>
+            <pattern id="ctaGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+              <circle cx="3" cy="3" r="1.5" fill="white" />
+              <circle cx="15" cy="15" r="1.5" fill="white" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#ctaGrid)" />
+        </svg>
+        <div className={`${t.max} relative z-10 text-center`}>
           <h2 id="cta-heading" className="text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
             Bring every volunteer touchpoint into one workflow
           </h2>
@@ -410,7 +445,7 @@ export function LandingPage() {
           <div>
             <div className="flex items-center gap-[10px]">
               <Logo className="shrink-0" />
-              <span className="text-xl font-bold text-white">VolunteerFlow</span>
+              <span className="text-xl font-bold text-teal-400">VolunteerFlow</span>
             </div>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-400">
               Operations software for nonprofits that run on volunteers—events, hours, and documents in one place.
@@ -480,9 +515,9 @@ export function LandingPage() {
         <div className={`${t.max} mt-12 flex flex-col items-start justify-between gap-6 border-t border-slate-800 pt-8 sm:flex-row sm:items-center`}>
           <p className="text-sm text-slate-500">© {new Date().getFullYear()} VolunteerFlow. All rights reserved.</p>
           <div className="flex items-center gap-6 text-slate-400">
-            <SocialIconTwitter className="transition-colors hover:text-white" />
-            <SocialIconLinkedIn className="transition-colors hover:text-white" />
-            <SocialIconGitHub className="transition-colors hover:text-white" />
+            <SocialIconTwitter className="text-slate-400 transition-colors hover:text-teal-400" />
+            <SocialIconLinkedIn className="text-slate-400 transition-colors hover:text-teal-400" />
+            <SocialIconGitHub className="text-slate-400 transition-colors hover:text-teal-400" />
           </div>
         </div>
       </footer>
