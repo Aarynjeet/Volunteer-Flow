@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://REPLACE_WITH_RAILWAY_BACKEND_DOMAIN/api/$1"
+    },
+    {
+      "source": "/sanctum/(.*)",
+      "destination": "https://REPLACE_WITH_RAILWAY_BACKEND_DOMAIN/sanctum/$1"
+    }
+  ]
+}
