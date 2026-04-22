@@ -1,6 +1,6 @@
 /**
- * VolunteerFlow monogram — V + F on a teal badge.
- * 36×36: field #0F766E, letterforms #FFFFFF. Geometric fills, no shadows.
+ * VolunteerFlow monogram — V then F (left to right) on a teal badge.
+ * 36×36: field #0F766E, letterforms white.
  */
 export function Logo({ className }: { className?: string }) {
   return (
@@ -14,10 +14,12 @@ export function Logo({ className }: { className?: string }) {
       aria-hidden
     >
       <rect x="0.5" y="0.5" width="35" height="35" rx="9" fill="#0F766E" stroke="rgb(255 255 255 / 0.2)" />
-      <g fill="#FFFFFF">
-        <path d="M5 6h12.5v3H8v5.5h7.5v3H8V30H5V6z" />
-        <path d="M15.5 30L20 9h2.5L27 30h-3l-1.6-6h-3.8L18.5 30h-3z" />
-      </g>
+      <text x="4" y="26" fontSize="18" fontWeight="800" fill="white">
+        V
+      </text>
+      <text x="18" y="26" fontSize="18" fontWeight="800" fill="white">
+        F
+      </text>
     </svg>
   );
 }

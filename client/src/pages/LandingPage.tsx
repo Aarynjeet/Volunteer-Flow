@@ -174,13 +174,13 @@ export function LandingPage() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8">
             <Link
               to="/login"
-              className={`group relative py-2 text-center text-sm font-semibold text-slate-700 sm:text-left ${t.transition} after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-teal-600 after:transition-all after:duration-200 hover:after:scale-x-100`}
+              className="border-2 border-slate-300 rounded-xl px-5 py-2 font-semibold text-slate-700 hover:border-slate-500 hover:bg-slate-50 transition-all duration-200"
             >
               Login
             </Link>
             <Link
               to="/register"
-              className={`rounded-xl bg-[#0F766E] px-6 py-3 text-center text-base font-semibold text-white hover:bg-teal-600 ${t.transition} hover:scale-[1.02] active:scale-[0.98] sm:w-auto`}
+              className="border-2 border-teal-700 rounded-xl px-5 py-2 font-semibold bg-teal-600 text-white hover:bg-teal-700 transition-all duration-200"
             >
               Register
             </Link>
