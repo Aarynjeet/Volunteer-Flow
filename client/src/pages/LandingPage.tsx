@@ -1,4 +1,9 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Logo } from '../components/Logo';
+
+/** Brand accent — progress bar fill (matches #2563EB used in Tailwind classes site-wide). */
+const ACCENT = '#2563EB';
 
 /**
  * Landing-only design tokens (8pt spacing scale, single accent, one radius, one shadow family).
@@ -26,6 +31,10 @@ const tw = {
     'rounded-lg border border-neutral-200 bg-white p-6 shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-md md:p-8',
   stepCard:
     'rounded-lg border border-neutral-200 bg-white p-6 transition-all duration-200 ease-in-out hover:border-[#2563EB] md:p-8',
+  featureIconWrap:
+    'flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[#EFF6FF] text-[#2563EB]',
+  stepNumber: 'font-sans text-2xl font-bold tabular-nums tracking-tight text-[#2563EB]',
+  statFigure: 'font-sans text-5xl font-bold tracking-tight text-[#2563EB] md:text-6xl',
 } as const;
 
 function IconUsers() {
@@ -56,11 +65,36 @@ function IconDocCheck() {
 }
 
 export function LandingPage() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const el = document.documentElement;
+      const scrollTop = window.scrollY ?? el.scrollTop;
+      const scrollable = el.scrollHeight - window.innerHeight;
+      const ratio = scrollable > 0 ? (scrollTop / scrollable) * 100 : 0;
+      setScrollProgress(Math.min(100, Math.max(0, ratio)));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#FFFFFF] font-sans antialiased">
-      <header className={`border-b border-neutral-200 bg-[#FFFFFF] ${tw.transition}`}>
+      <div className="pointer-events-none fixed left-0 right-0 top-0 z-[100] h-1 w-full" aria-hidden>
+        <div
+          className="h-full transition-all duration-75 ease-out"
+          style={{ width: `${scrollProgress}%`, backgroundColor: ACCENT }}
+        />
+      </div>
+
+      <header className={`mt-1 border-b border-neutral-200 bg-[#FFFFFF] ${tw.transition}`}>
         <nav className={`${tw.maxContent} flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between`}>
-          <div className="text-xl font-semibold text-[#0F1117]">VolunteerFlow</div>
+          <Link to="/" className="flex items-center gap-2 self-center md:self-auto">
+            <Logo className="shrink-0 text-[#2563EB]" />
+            <span className="font-sans text-2xl font-bold leading-none text-[#2563EB]">VolunteerFlow</span>
+          </Link>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8">
             <Link to="/login" className={`${tw.navLink} py-2 text-center sm:text-left`}>
               Login
@@ -109,7 +143,7 @@ export function LandingPage() {
           <p className={`mt-4 max-w-2xl ${tw.body}`}>Core capabilities teams use week after week to stay compliant and organized.</p>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8">
             <article className={tw.featureCard}>
-              <div className="text-neutral-700" aria-hidden>
+              <div className={tw.featureIconWrap} aria-hidden>
                 <IconUsers />
               </div>
               <h3 className={`mt-6 ${tw.headingCard}`}>Manage Volunteers</h3>
@@ -118,7 +152,7 @@ export function LandingPage() {
               </p>
             </article>
             <article className={tw.featureCard}>
-              <div className="text-neutral-700" aria-hidden>
+              <div className={tw.featureIconWrap} aria-hidden>
                 <IconClock />
               </div>
               <h3 className={`mt-6 ${tw.headingCard}`}>Track Hours</h3>
@@ -127,7 +161,7 @@ export function LandingPage() {
               </p>
             </article>
             <article className={tw.featureCard}>
-              <div className="text-neutral-700" aria-hidden>
+              <div className={tw.featureIconWrap} aria-hidden>
                 <IconDocCheck />
               </div>
               <h3 className={`mt-6 ${tw.headingCard}`}>Approve Documents</h3>
@@ -145,17 +179,17 @@ export function LandingPage() {
           <p className={`mt-4 max-w-2xl ${tw.body}`}>From signup to signed-off hours in three straightforward steps.</p>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8">
             <div className={tw.stepCard}>
-              <span className="font-sans text-sm font-semibold text-[#2563EB]">01</span>
+              <span className={tw.stepNumber}>01</span>
               <h3 className={`mt-4 ${tw.headingCard}`}>Create an account</h3>
               <p className={`mt-4 ${tw.body}`}>Staff and volunteers sign up with a role-based profile so permissions match responsibility from day one.</p>
             </div>
             <div className={tw.stepCard}>
-              <span className="font-sans text-sm font-semibold text-[#2563EB]">02</span>
+              <span className={tw.stepNumber}>02</span>
               <h3 className={`mt-4 ${tw.headingCard}`}>Join or post events</h3>
               <p className={`mt-4 ${tw.body}`}>Organizers publish opportunities; volunteers apply and receive status updates without manual email triage.</p>
             </div>
             <div className={tw.stepCard}>
-              <span className="font-sans text-sm font-semibold text-[#2563EB]">03</span>
+              <span className={tw.stepNumber}>03</span>
               <h3 className={`mt-4 ${tw.headingCard}`}>Track and approve hours</h3>
               <p className={`mt-4 ${tw.body}`}>Hours roll up to events and volunteers; admins approve batches so finance and program leads see one source of truth.</p>
             </div>
@@ -166,15 +200,15 @@ export function LandingPage() {
       <section className={`${tw.sectionY} bg-[#FFFFFF]`}>
         <div className={`${tw.maxContent} grid grid-cols-1 gap-12 text-center md:grid-cols-3 md:gap-8`}>
           <div>
-            <p className="font-sans text-5xl font-bold tracking-tight text-[#0F1117] md:text-6xl">500+</p>
+            <p className={tw.statFigure}>500+</p>
             <p className={`mt-4 ${tw.caption} text-[#6B7280]`}>Volunteers</p>
           </div>
           <div>
-            <p className="font-sans text-5xl font-bold tracking-tight text-[#0F1117] md:text-6xl">1,200+</p>
+            <p className={tw.statFigure}>1,200+</p>
             <p className={`mt-4 ${tw.caption} text-[#6B7280]`}>Hours Logged</p>
           </div>
           <div>
-            <p className="font-sans text-5xl font-bold tracking-tight text-[#0F1117] md:text-6xl">50+</p>
+            <p className={tw.statFigure}>50+</p>
             <p className={`mt-4 ${tw.caption} text-[#6B7280]`}>Events Coordinated</p>
           </div>
         </div>
