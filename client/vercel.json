@@ -7,6 +7,10 @@
     {
       "source": "/sanctum/(.*)",
       "destination": "https://volunteer-flow-production.up.railway.app/sanctum/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
