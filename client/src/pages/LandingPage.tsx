@@ -192,7 +192,7 @@ export function LandingPage() {
 
       <header className="mt-1 border-b border-[#E2DDD5] bg-[#FAFAF7] dark:border-[#2D3E2D] dark:bg-[#0F1A0F]">
         <nav className={`${t.max} flex flex-col gap-4 py-3 md:flex-row md:items-center md:justify-between`}>
-          <Link to="/" className="self-center md:self-auto">
+          <Link to="/" className="self-center cursor-pointer no-underline md:self-auto">
             <div className="flex items-center gap-2.5">
               <Logo className="shrink-0" />
               <span className="text-2xl font-bold leading-none text-[#2D6A4F] dark:text-[#52B788]">VolunteerFlow</span>
@@ -479,10 +479,10 @@ export function LandingPage() {
       <footer className="border-t border-[#2D3E2D] bg-[#1A2E1A] pb-10 pt-16 text-[#A8B2A8] dark:bg-[#0F1A0F]">
         <div className={`${t.max} grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4`}>
           <div>
-            <div className="flex items-center gap-2.5">
+            <Link to="/" className="flex cursor-pointer items-center gap-2.5 no-underline">
               <Logo className="shrink-0" />
               <span className="text-xl font-bold text-[#74C69D] dark:text-[#52B788]">VolunteerFlow</span>
-            </div>
+            </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#A8B2A8] dark:text-[#A8B2A8]">
               Operations software for nonprofits that run on volunteers—events, hours, and documents in one place.
             </p>

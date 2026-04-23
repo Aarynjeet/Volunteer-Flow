@@ -18,6 +18,7 @@ import { VolunteerDashboard } from './pages/volunteer/Dashboard';
 import { VolunteerApplications } from './pages/volunteer/Applications';
 import { VolunteerDocuments } from './pages/volunteer/Documents';
 import { VolunteerEvents } from './pages/volunteer/Events';
+import { VolunteerEventDetailPage } from './pages/volunteer/EventDetailPage';
 import { VolunteerHours } from './pages/volunteer/Hours';
 import { VolunteerProfile } from './pages/volunteer/Profile';
 
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="dashboard" element={<VolunteerDashboard />} />
           <Route path="profile" element={<VolunteerProfile />} />
           <Route path="events" element={<VolunteerEvents />} />
+          <Route path="events/:id" element={<VolunteerEventDetailPage />} />
           <Route path="applications" element={<VolunteerApplications />} />
           <Route path="documents" element={<VolunteerDocuments />} />
           <Route path="hours" element={<VolunteerHours />} />

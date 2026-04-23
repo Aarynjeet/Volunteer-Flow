@@ -19,10 +19,10 @@ export function LoginPage() {
   return (
     <div className="vf-page flex min-h-screen items-center justify-center px-6 py-8">
       <div className="w-full max-w-md">
-        <div className="mb-6 flex flex-col items-center gap-2.5">
+        <Link to="/" className="mb-6 flex cursor-pointer flex-col items-center gap-2.5 no-underline">
           <Logo className="shrink-0" />
           <span className="text-xl font-bold text-[#2D6A4F] dark:text-[#52B788]">VolunteerFlow</span>
-        </div>
+        </Link>
         <div className="rounded-2xl border border-[#E2DDD5] bg-white p-8 shadow-sm dark:border-[#2D3E2D] dark:bg-[#1E2E1E]">
           <h1 className="vf-h1">Sign in</h1>
           <p className="mt-2 text-sm font-medium text-[#4A5568] dark:text-[#A8B2A8]">Welcome back to VolunteerFlow.</p>

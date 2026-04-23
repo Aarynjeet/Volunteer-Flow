@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../../lib/axios';
 import type { Application, Event, PaginatedResponse } from '../../types';
 
 export function VolunteerEvents() {
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
@@ -96,16 +96,17 @@ export function VolunteerEvents() {
                       Apply
                     </button>
                   )}
-                  <button
-                    type="button"
-                    className="w-full text-left text-xs font-semibold text-[#2D6A4F] hover:underline dark:text-[#52B788] sm:w-auto"
-                    onClick={() => setSelectedEvent(event)}
+                  <Link
+                    to={`/volunteer/events/${event.id}`}
+                    className="w-full text-left text-xs font-semibold text-[#2D6A4F] no-underline hover:underline dark:text-[#52B788] sm:w-auto"
                   >
                     View details
-                  </button>
+                  </Link>
                   <div className="mt-1 flex w-full items-center justify-between text-xs">
                     <span className="text-[#4A5568] dark:text-[#A8B2A8]">{new Date(event.date).toLocaleDateString()}</span>
-                    <span className="font-semibold text-[#2D6A4F] hover:underline dark:text-[#52B788]">View Details</span>
+                    <Link to={`/volunteer/events/${event.id}`} className="font-semibold text-[#2D6A4F] hover:underline dark:text-[#52B788]">
+                      View Details
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -113,21 +114,6 @@ export function VolunteerEvents() {
           );
         })}
       </div>
-
-      {selectedEvent ? (
-        <div className="vf-card">
-          <h3 className="vf-h2">{selectedEvent.title}</h3>
-          <p className="mt-2 text-sm text-[#4A5568] dark:text-[#A8B2A8]">{selectedEvent.description}</p>
-          <p className="mt-2 text-sm text-[#4A5568] dark:text-[#A8B2A8]">Volunteers needed: {selectedEvent.required_volunteers}</p>
-          <button
-            type="button"
-            className="vf-btn-secondary mt-4 text-sm"
-            onClick={() => setSelectedEvent(null)}
-          >
-            Close
-          </button>
-        </div>
-      ) : null}
     </div>
   );
 }

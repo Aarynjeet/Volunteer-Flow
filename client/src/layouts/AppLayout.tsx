@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import { Logo } from '../components/Logo';
 import { NotificationBell } from '../components/NotificationBell';
 import { ThemeToggle } from '../components/ThemeToggle';
@@ -109,10 +109,10 @@ export function AppLayout() {
                 <path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <div className="flex items-center gap-2.5">
+            <Link to="/" className="flex cursor-pointer items-center gap-2.5 no-underline">
               <Logo className="shrink-0" />
               <div className="text-xl font-bold text-[#2D6A4F] dark:text-[#52B788]">VolunteerFlow</div>
-            </div>
+            </Link>
           </div>
           <div className="flex items-center justify-end gap-2 sm:gap-3">
             <ThemeToggle />
