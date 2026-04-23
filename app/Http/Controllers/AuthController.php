@@ -25,7 +25,11 @@ class AuthController extends Controller
             'role' => $validated['role'],
         ]);
 
-        Auth::login($user);
+        Auth::guard('web')->login($user);
+
+        if ($request->hasSession()) {
+            $request->session()->regenerate();
+        }
 
         return response()->json($user, 201);
     }
