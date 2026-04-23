@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  html.dark {
+    color-scheme: dark;
+  }
   body {
     font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   }
