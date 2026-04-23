@@ -53,10 +53,10 @@ export function OrganizerEvents() {
   });
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold text-slate-900">Events</h1>
+    <div className="space-y-8">
+      <h1 className="vf-h1">Events</h1>
       <form
-        className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+        className="rounded-2xl border border-[#E2DDD5] bg-white p-8 shadow-sm dark:border-[#2D3E2D] dark:bg-[#1E2E1E]"
         onSubmit={(e) => {
           e.preventDefault();
           const year = Number(form.date.slice(0, 4));
@@ -68,12 +68,12 @@ export function OrganizerEvents() {
           saveMutation.mutate();
         }}
       >
-        <div className="grid gap-3 md:grid-cols-2">
-          <input className="rounded border border-slate-300 px-3 py-2 text-sm" placeholder="Title" value={form.title} onChange={(e) => setForm((v) => ({ ...v, title: e.target.value }))} required />
-          <input className="rounded border border-slate-300 px-3 py-2 text-sm" placeholder="Location" value={form.location} onChange={(e) => setForm((v) => ({ ...v, location: e.target.value }))} required />
+        <div className="grid gap-4 md:grid-cols-2">
+          <input className="vf-input" placeholder="Title" value={form.title} onChange={(e) => setForm((v) => ({ ...v, title: e.target.value }))} required />
+          <input className="vf-input" placeholder="Location" value={form.location} onChange={(e) => setForm((v) => ({ ...v, location: e.target.value }))} required />
           <input
             type="datetime-local"
-            className="rounded border border-slate-300 px-3 py-2 text-sm"
+            className="vf-input"
             min="1000-01-01T00:00"
             max="9999-12-31T23:59"
             value={form.date}
@@ -83,32 +83,36 @@ export function OrganizerEvents() {
             }}
             required
           />
-          <input type="number" min={1} className="rounded border border-slate-300 px-3 py-2 text-sm" value={form.required_volunteers} onChange={(e) => setForm((v) => ({ ...v, required_volunteers: e.target.value }))} required />
-          <select className="rounded border border-slate-300 px-3 py-2 text-sm" value={form.category} onChange={(e) => setForm((v) => ({ ...v, category: e.target.value }))}>
+          <input type="number" min={1} className="vf-input" value={form.required_volunteers} onChange={(e) => setForm((v) => ({ ...v, required_volunteers: e.target.value }))} required />
+          <select className="vf-input" value={form.category} onChange={(e) => setForm((v) => ({ ...v, category: e.target.value }))}>
             <option value="food_drive">food_drive</option>
             <option value="community_cleanup">community_cleanup</option>
             <option value="fundraiser">fundraiser</option>
             <option value="workshop">workshop</option>
             <option value="other">other</option>
           </select>
-          <textarea className="rounded border border-slate-300 px-3 py-2 text-sm md:col-span-2" placeholder="Description" value={form.description} onChange={(e) => setForm((v) => ({ ...v, description: e.target.value }))} required />
+          <textarea className="vf-input md:col-span-2" placeholder="Description" value={form.description} onChange={(e) => setForm((v) => ({ ...v, description: e.target.value }))} required />
         </div>
         {dateError ? <div className="mt-2 text-sm text-red-600">{dateError}</div> : null}
-        <button type="submit" className="mt-3 rounded bg-indigo-600 px-3 py-2 text-sm font-semibold text-white">
+        <button type="submit" className="vf-btn-primary mt-4">
           {editing ? 'Update event' : 'Create event'}
         </button>
       </form>
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900">My events</h2>
-        <div className="mt-3 space-y-2">
+      <div>
+        <h2 className="vf-h2 mb-4">My events</h2>
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {(eventsQuery.data ?? []).map((event) => (
-            <div key={event.id} className="rounded border border-slate-200 p-3 text-sm">
-              <div className="break-words font-medium text-slate-900">{event.title}</div>
-              <div className="break-words text-slate-600">{new Date(event.date).toLocaleString()}</div>
-              <div className="mt-2 flex flex-col gap-2 sm:flex-row">
+            <div key={event.id} className="overflow-hidden rounded-2xl border border-[#E2DDD5] bg-white shadow-sm transition-all duration-200 hover:border-[#2D6A4F] hover:shadow-md dark:border-[#2D3E2D] dark:bg-[#1E2E1E] dark:hover:border-[#52B788]">
+              <div className="relative h-32 bg-[#F2F0E8] dark:bg-[#1A2E1A]">
+                <span className="absolute right-3 top-3 rounded-full bg-[#D8F3DC] px-3 py-1 text-xs font-semibold text-[#2D6A4F]">{event.category}</span>
+              </div>
+              <div className="p-6 text-sm">
+                <div className="break-words text-lg font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">{event.title}</div>
+                <div className="break-words text-[#4A5568] dark:text-[#A8B2A8]">{new Date(event.date).toLocaleString()}</div>
+                <div className="mt-4 flex flex-col gap-2 sm:flex-row">
                 <button
                   type="button"
-                  className="w-full rounded bg-slate-100 px-2 py-1 text-xs sm:w-auto"
+                  className="vf-btn-secondary w-full text-xs sm:w-auto"
                   onClick={() => {
                     setEditing(event);
                     setForm({
@@ -125,10 +129,11 @@ export function OrganizerEvents() {
                 </button>
                 <Link
                   to={`/organizer/events/${event.id}/applicants`}
-                  className="inline-block w-full rounded bg-indigo-600 px-2 py-1 text-center text-xs text-white sm:w-auto"
+                  className="vf-btn-primary inline-block w-full text-center text-xs sm:w-auto"
                 >
                   View applicants
                 </Link>
+              </div>
               </div>
             </div>
           ))}

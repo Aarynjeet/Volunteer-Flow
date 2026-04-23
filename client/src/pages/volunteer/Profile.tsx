@@ -64,78 +64,95 @@ export function VolunteerProfile() {
     },
   });
 
-  if (profileQuery.isLoading) {
-    return <div className="text-sm text-slate-600">Loading profile...</div>;
-  }
+  if (profileQuery.isLoading) return <div className="text-sm text-[#4A5568] dark:text-[#A8B2A8]">Loading profile...</div>;
 
   if (profileQuery.isError) {
     return <div className="text-sm text-red-600">Failed to load profile.</div>;
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900">Profile</h1>
-        <p className="mt-1 text-sm text-slate-600">Update your volunteer profile information.</p>
+        <h1 className="vf-h1">Profile</h1>
+        <p className="mt-1 text-sm font-medium text-[#4A5568] dark:text-[#A8B2A8]">Update your volunteer profile information.</p>
       </div>
 
       <form
-        className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
+        className="grid gap-6 lg:grid-cols-2"
         onSubmit={(e) => {
           e.preventDefault();
           saveMutation.mutate();
         }}
       >
-        <div className="grid gap-4 md:grid-cols-2">
-          <label className="text-sm text-slate-700">
+        <div className="rounded-2xl border border-[#E2DDD5] bg-white p-6 shadow-sm dark:border-[#2D3E2D] dark:bg-[#1E2E1E]">
+          <h2 className="vf-h2 mb-4">Profile info</h2>
+          <div className="grid gap-4">
+          <label className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">
             Phone
-            <input className="mt-1 w-full rounded border border-slate-300 px-3 py-2" value={form.phone} onChange={(e) => setForm((v) => ({ ...v, phone: e.target.value }))} />
+            <input className="vf-input mt-1" value={form.phone} onChange={(e) => setForm((v) => ({ ...v, phone: e.target.value }))} />
           </label>
-          <label className="text-sm text-slate-700">
+          <label className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">
             Location
-            <input className="mt-1 w-full rounded border border-slate-300 px-3 py-2" value={form.location} onChange={(e) => setForm((v) => ({ ...v, location: e.target.value }))} />
+            <input className="vf-input mt-1" value={form.location} onChange={(e) => setForm((v) => ({ ...v, location: e.target.value }))} />
           </label>
-          <label className="text-sm text-slate-700 md:col-span-2">
+          <label className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">
             Bio
-            <textarea className="mt-1 min-h-24 w-full resize-y rounded border border-slate-300 px-3 py-2" value={form.bio} onChange={(e) => setForm((v) => ({ ...v, bio: e.target.value }))} />
+            <textarea className="vf-input mt-1 min-h-24 resize-y" value={form.bio} onChange={(e) => setForm((v) => ({ ...v, bio: e.target.value }))} />
           </label>
-          <label className="text-sm text-slate-700 md:col-span-2">
-            Experience
-            <textarea className="mt-1 min-h-24 w-full resize-y rounded border border-slate-300 px-3 py-2" value={form.experience} onChange={(e) => setForm((v) => ({ ...v, experience: e.target.value }))} />
-          </label>
-          <label className="text-sm text-slate-700 md:col-span-2">
-            Skills
-            <textarea className="mt-1 min-h-24 w-full resize-y rounded border border-slate-300 px-3 py-2" value={form.skills} onChange={(e) => setForm((v) => ({ ...v, skills: e.target.value }))} />
-          </label>
-          <label className="text-sm text-slate-700 md:col-span-2">
-            Availability
-            <textarea className="mt-1 min-h-24 w-full resize-y rounded border border-slate-300 px-3 py-2" value={form.availability} onChange={(e) => setForm((v) => ({ ...v, availability: e.target.value }))} />
-          </label>
-          <label className="text-sm text-slate-700 md:col-span-2">
+          <label className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">
             Emergency contact
-            <input className="mt-1 w-full rounded border border-slate-300 px-3 py-2" value={form.emergency_contact} onChange={(e) => setForm((v) => ({ ...v, emergency_contact: e.target.value }))} />
+            <input className="vf-input mt-1" value={form.emergency_contact} onChange={(e) => setForm((v) => ({ ...v, emergency_contact: e.target.value }))} />
           </label>
-          <label className="text-sm text-slate-700 md:col-span-2">
+          </div>
+        </div>
+        <div className="rounded-2xl border border-[#E2DDD5] bg-white p-6 shadow-sm dark:border-[#2D3E2D] dark:bg-[#1E2E1E]">
+          <h2 className="vf-h2 mb-4">Resume and skills</h2>
+          <div className="grid gap-4">
+          <label className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">
+            Experience
+            <textarea className="vf-input mt-1 min-h-24 resize-y" value={form.experience} onChange={(e) => setForm((v) => ({ ...v, experience: e.target.value }))} />
+          </label>
+          <label className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">
+            Skills
+            <textarea className="vf-input mt-1 min-h-24 resize-y" value={form.skills} onChange={(e) => setForm((v) => ({ ...v, skills: e.target.value }))} />
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {form.skills
+              .split(',')
+              .map((skill) => skill.trim())
+              .filter(Boolean)
+              .map((skill) => (
+                <span key={skill} className="rounded-full border border-green-200 bg-[#D8F3DC] px-3 py-1 text-sm text-[#2D6A4F] dark:border-green-800 dark:bg-green-900 dark:text-[#52B788]">
+                  {skill}
+                </span>
+              ))}
+          </div>
+          <label className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">
+            Availability
+            <textarea className="vf-input mt-1 min-h-24 resize-y" value={form.availability} onChange={(e) => setForm((v) => ({ ...v, availability: e.target.value }))} />
+          </label>
+          <label className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">
             Resume used for organizer applications (PDF, max 5MB)
             <input
               type="file"
               accept="application/pdf"
-              className="mt-1 w-full rounded border border-slate-300 px-3 py-2"
+              className="vf-input mt-1"
               onChange={(e) => setResume(e.target.files?.[0] ?? null)}
             />
             {profileQuery.data?.resume_url ? (
-              <a href={profileQuery.data.resume_url} target="_blank" rel="noreferrer" className="mt-2 inline-block break-all text-sm text-indigo-700 underline">
+              <a href={profileQuery.data.resume_url} target="_blank" rel="noreferrer" className="mt-2 inline-block break-all text-sm text-[#2D6A4F] underline dark:text-[#52B788]">
                 View current resume: {profileQuery.data.resume_file_name ?? 'Resume'}
               </a>
             ) : null}
           </label>
+          </div>
         </div>
-        <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
-          <button type="submit" className="w-full rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50 sm:w-auto" disabled={saveMutation.isPending}>
+        <div className="lg:col-span-2 mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+          <button type="submit" className="vf-btn-primary w-full sm:w-auto disabled:opacity-50" disabled={saveMutation.isPending}>
             Save profile
           </button>
-          {saveMutation.isSuccess ? <span className="text-sm text-emerald-700">Saved.</span> : null}
-          {saveMutation.isError ? <span className="text-sm text-red-600">Could not save profile.</span> : null}
+          {saveMutation.isSuccess ? <span className="text-sm text-[#2D6A4F] dark:text-[#52B788]">Saved.</span> : null}
+          {saveMutation.isError ? <span className="text-sm text-red-600 dark:text-red-400">Could not save profile.</span> : null}
         </div>
       </form>
     </div>

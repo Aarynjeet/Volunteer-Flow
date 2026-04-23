@@ -21,26 +21,26 @@ export function AdminDocuments() {
   });
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold text-slate-900">Documents</h1>
-      <div className="space-y-2 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="space-y-8">
+      <h1 className="vf-h1">Documents</h1>
+      <div className="vf-card space-y-3">
         {(query.data ?? []).map((doc) => (
-          <div key={doc.id} className="rounded border border-slate-200 p-3 text-sm">
-            <div className="break-words font-medium text-slate-900">{doc.file_name}</div>
-            <div className="text-slate-600">
+          <div key={doc.id} className="rounded-2xl border border-[#E2DDD5] bg-white p-6 text-sm transition-all duration-200 hover:border-[#2D6A4F] dark:border-[#2D3E2D] dark:bg-[#1E2E1E] dark:hover:border-[#52B788]">
+            <div className="break-words font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">{doc.file_name}</div>
+            <div className="text-[#4A5568] dark:text-[#A8B2A8]">
               {doc.type} • {doc.status}
             </div>
             <input
-              className="mt-2 w-full rounded border border-slate-300 px-2 py-1 text-xs"
+              className="vf-input mt-3 text-xs"
               placeholder="Rejection reason (required if rejecting)"
               value={reasons[doc.id] ?? ''}
               onChange={(e) => setReasons((v) => ({ ...v, [doc.id]: e.target.value }))}
             />
             <div className="mt-2 flex flex-col gap-2 sm:flex-row">
-              <button className="w-full rounded bg-emerald-600 px-2 py-1 text-xs text-white sm:w-auto" onClick={() => reviewMutation.mutate({ id: doc.id, status: 'approved' })}>
+              <button className="vf-btn-primary w-full text-xs sm:w-auto" onClick={() => reviewMutation.mutate({ id: doc.id, status: 'approved' })}>
                 Approve
               </button>
-              <button className="w-full rounded bg-red-600 px-2 py-1 text-xs text-white sm:w-auto" onClick={() => reviewMutation.mutate({ id: doc.id, status: 'rejected', rejection_reason: reasons[doc.id] })}>
+              <button className="vf-btn-danger w-full text-xs sm:w-auto" onClick={() => reviewMutation.mutate({ id: doc.id, status: 'rejected', rejection_reason: reasons[doc.id] })}>
                 Reject
               </button>
             </div>

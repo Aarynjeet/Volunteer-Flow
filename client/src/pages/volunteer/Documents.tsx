@@ -37,49 +37,49 @@ export function VolunteerDocuments() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900">Documents</h1>
-        <p className="mt-1 text-sm text-slate-600">Upload your required documents and track review status.</p>
+        <h1 className="vf-h1">Documents</h1>
+        <p className="mt-1 text-sm font-medium text-[#4A5568] dark:text-[#A8B2A8]">Upload your required documents and track review status.</p>
       </div>
 
       <form
-        className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+        className="rounded-2xl border border-[#E2DDD5] bg-white p-8 shadow-sm dark:border-[#2D3E2D] dark:bg-[#1E2E1E]"
         onSubmit={(e) => {
           e.preventDefault();
           uploadMutation.mutate();
         }}
       >
-        <div className="grid gap-3 md:grid-cols-3">
-          <input type="file" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="w-full rounded border border-slate-300 px-3 py-2 text-sm" />
-          <select value={type} onChange={(e) => setType(e.target.value as (typeof types)[number])} className="w-full rounded border border-slate-300 px-3 py-2 text-sm">
+        <div className="grid gap-4 md:grid-cols-3">
+          <input type="file" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="vf-input" />
+          <select value={type} onChange={(e) => setType(e.target.value as (typeof types)[number])} className="vf-input">
             {types.map((t) => (
               <option key={t} value={t}>
                 {t}
               </option>
             ))}
           </select>
-          <button type="submit" className="w-full rounded bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50 md:w-auto" disabled={uploadMutation.isPending || !file}>
+          <button type="submit" className="vf-btn-primary w-full md:w-auto disabled:opacity-50" disabled={uploadMutation.isPending || !file}>
             Upload
           </button>
         </div>
-        {uploadMutation.isError ? <div className="mt-2 text-sm text-red-600">Upload failed. Check file type/size.</div> : null}
-        {uploadMutation.isSuccess ? <div className="mt-2 text-sm text-emerald-700">Document uploaded.</div> : null}
+        {uploadMutation.isError ? <div className="mt-2 text-sm text-red-600 dark:text-red-400">Upload failed. Check file type/size.</div> : null}
+        {uploadMutation.isSuccess ? <div className="mt-2 text-sm text-[#2D6A4F] dark:text-[#52B788]">Document uploaded.</div> : null}
       </form>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900">My documents</h2>
-        {docsQuery.isLoading ? <p className="mt-2 text-sm text-slate-600">Loading...</p> : null}
+      <div className="vf-card">
+        <h2 className="vf-h2">My documents</h2>
+        {docsQuery.isLoading ? <p className="mt-2 text-sm text-[#4A5568] dark:text-[#A8B2A8]">Loading...</p> : null}
         {docsQuery.isError ? <p className="mt-2 text-sm text-red-600">Failed to load documents.</p> : null}
         <div className="mt-3 space-y-2">
           {(docsQuery.data ?? []).map((doc) => (
-            <div key={doc.id} className="rounded border border-slate-200 p-3 text-sm">
-              <div className="break-all font-medium text-slate-900">{doc.file_name}</div>
-              <div className="text-slate-600">
+            <div key={doc.id} className="rounded-2xl border border-[#E2DDD5] bg-white p-6 text-sm transition-all duration-200 hover:border-[#2D6A4F] dark:border-[#2D3E2D] dark:bg-[#1E2E1E] dark:hover:border-[#52B788]">
+              <div className="break-all font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">{doc.file_name}</div>
+              <div className="text-[#4A5568] dark:text-[#A8B2A8]">
                 {doc.type} • {doc.status}
               </div>
-              {doc.rejection_reason ? <div className="break-words text-red-700">Reason: {doc.rejection_reason}</div> : null}
-              <a href={doc.file_url} target="_blank" rel="noreferrer" className="mt-1 inline-block text-indigo-700 underline">
+              {doc.rejection_reason ? <div className="break-words text-red-700 dark:text-red-400">Reason: {doc.rejection_reason}</div> : null}
+              <a href={doc.file_url} target="_blank" rel="noreferrer" className="mt-1 inline-block text-[#2D6A4F] underline dark:text-[#52B788]">
                 View file
               </a>
             </div>

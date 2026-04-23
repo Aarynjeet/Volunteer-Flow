@@ -43,14 +43,14 @@ export function OrganizerVolunteers() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900">Volunteers</h1>
-        <p className="mt-1 text-sm text-slate-600">Manage applications to your events.</p>
+        <h1 className="vf-h1">Volunteers</h1>
+        <p className="mt-1 text-sm font-medium text-[#4A5568] dark:text-[#A8B2A8]">Manage applications to your events.</p>
       </div>
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="vf-card">
         {feedback ? (
-          <div className={`mb-3 rounded border px-3 py-2 text-sm ${feedback.type === 'success' ? 'border-emerald-200 bg-emerald-50 text-emerald-700' : 'border-red-200 bg-red-50 text-red-700'}`}>
+          <div className={`mb-3 rounded-xl border px-3 py-2 text-sm ${feedback.type === 'success' ? 'border-green-200 bg-[#D8F3DC] text-[#2D6A4F] dark:border-green-800 dark:bg-green-950 dark:text-[#52B788]' : 'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-400'}`}>
             {feedback.message}
           </div>
         ) : null}
@@ -58,18 +58,18 @@ export function OrganizerVolunteers() {
           {(applicationsQuery.data ?? []).map((app) => {
             const isUpdatingThisRow = statusMutation.isPending && statusMutation.variables?.id === app.id;
             return (
-              <div key={app.id} className="rounded border border-slate-200 p-3 text-sm">
-                <div className="break-words font-medium text-slate-900">{app.volunteer?.name ?? `Volunteer #${app.volunteer_id}`}</div>
-                <div className="break-words text-slate-600">{app.event?.title ?? `Event #${app.event_id}`}</div>
-                <div className="mt-1 text-slate-600">Current status: {app.status}</div>
+              <div key={app.id} className="rounded-2xl border border-[#E2DDD5] bg-white p-6 text-sm transition-all duration-200 hover:border-[#2D6A4F] dark:border-[#2D3E2D] dark:bg-[#1E2E1E] dark:hover:border-[#52B788]">
+                <div className="break-words font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">{app.volunteer?.name ?? `Volunteer #${app.volunteer_id}`}</div>
+                <div className="break-words text-[#4A5568] dark:text-[#A8B2A8]">{app.event?.title ?? `Event #${app.event_id}`}</div>
+                <div className="mt-1 text-[#4A5568] dark:text-[#A8B2A8]">Current status: {app.status}</div>
                 <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
-                  <button className="w-full rounded bg-emerald-600 px-2 py-1 text-xs text-white disabled:opacity-50" onClick={() => statusMutation.mutate({ id: app.id, status: 'approved' })} disabled={isUpdatingThisRow}>
+                  <button className="vf-btn-primary w-full text-xs disabled:opacity-50" onClick={() => statusMutation.mutate({ id: app.id, status: 'approved' })} disabled={isUpdatingThisRow}>
                     Approve
                   </button>
-                  <button className="w-full rounded bg-red-600 px-2 py-1 text-xs text-white disabled:opacity-50" onClick={() => statusMutation.mutate({ id: app.id, status: 'rejected' })} disabled={isUpdatingThisRow}>
+                  <button className="vf-btn-danger w-full text-xs disabled:opacity-50" onClick={() => statusMutation.mutate({ id: app.id, status: 'rejected' })} disabled={isUpdatingThisRow}>
                     Reject
                   </button>
-                  <button className="w-full rounded bg-slate-700 px-2 py-1 text-xs text-white disabled:opacity-50" onClick={() => statusMutation.mutate({ id: app.id, status: 'completed' })} disabled={isUpdatingThisRow}>
+                  <button className="vf-btn-secondary w-full text-xs disabled:opacity-50" onClick={() => statusMutation.mutate({ id: app.id, status: 'completed' })} disabled={isUpdatingThisRow}>
                     Complete
                   </button>
                 </div>

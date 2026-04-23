@@ -54,7 +54,7 @@ export function NotificationBell() {
     <div className="relative" ref={rootRef}>
       <button
         type="button"
-        className="relative rounded-md p-2 text-slate-600 hover:bg-slate-100"
+        className="relative rounded-xl p-2 text-[#4A5568] transition-colors hover:bg-[#D8F3DC] dark:text-[#A8B2A8] dark:hover:bg-[#1E2E1E]"
         aria-label="Notifications"
         onClick={() => setOpen((v) => !v)}
       >
@@ -81,19 +81,19 @@ export function NotificationBell() {
       </button>
 
       {open ? (
-        <div className="absolute right-0 z-50 mt-2 w-[calc(100vw-1rem)] max-w-sm overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg sm:w-96">
+        <div className="absolute right-0 z-50 mt-2 w-[calc(100vw-1rem)] max-w-sm overflow-hidden rounded-2xl border border-[#E2DDD5] bg-white shadow-lg dark:border-[#2D3E2D] dark:bg-[#1E2E1E] sm:w-96">
           <div className="max-h-80 overflow-y-auto">
             {lastFive.length === 0 ? (
-              <div className="p-4 text-sm text-slate-600">No notifications yet.</div>
+              <div className="p-4 text-sm text-[#4A5568] dark:text-[#A8B2A8]">No notifications yet.</div>
             ) : (
               lastFive.map((n) => (
-                <div key={n.id} className="border-b border-slate-100 p-3 text-sm">
+                <div key={n.id} className="border-b border-[#E2DDD5] p-3 text-sm dark:border-[#2D3E2D]">
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
-                    <div className="break-words text-slate-900">{n.message}</div>
+                    <div className="break-words text-[#1A1A1A] dark:text-[#F0EDE4]">{n.message}</div>
                     {!n.read ? (
                       <button
                         type="button"
-                        className="shrink-0 rounded bg-slate-100 px-2 py-1 text-xs text-slate-700 hover:bg-slate-200"
+                        className="shrink-0 rounded-xl border border-[#E2DDD5] px-2 py-1 text-xs text-[#4A5568] hover:border-[#2D6A4F] hover:text-[#2D6A4F] dark:border-[#2D3E2D] dark:text-[#A8B2A8] dark:hover:border-[#52B788] dark:hover:text-[#52B788]"
                         onClick={() => markOne.mutate(n.id)}
                         disabled={markOne.isPending}
                       >
@@ -101,17 +101,17 @@ export function NotificationBell() {
                       </button>
                     ) : null}
                   </div>
-                  <div className="mt-1 break-words text-xs text-slate-500">
+                  <div className="mt-1 break-words text-xs text-[#4A5568] dark:text-[#A8B2A8]">
                     {new Date(n.created_at).toLocaleString()} {n.read ? '• read' : '• unread'}
                   </div>
                 </div>
               ))
             )}
           </div>
-          <div className="border-t border-slate-200 p-2">
+          <div className="border-t border-[#E2DDD5] p-2 dark:border-[#2D3E2D]">
             <button
               type="button"
-              className="w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+              className="vf-btn-primary w-full text-sm disabled:opacity-50"
               disabled={markAll.isPending || unread === 0}
               onClick={() => markAll.mutate()}
             >

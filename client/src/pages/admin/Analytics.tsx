@@ -18,8 +18,8 @@ export function AdminAnalytics() {
   });
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold text-slate-900">Analytics</h1>
+    <div className="space-y-8">
+      <h1 className="vf-h1">Analytics</h1>
       <AnalyticsCard title="Users by month" rows={query.data?.users_by_month ?? []} labelKey="month" />
       <AnalyticsCard title="Applications by status" rows={query.data?.applications_by_status ?? []} labelKey="status" />
       <AnalyticsCard title="Documents by status" rows={query.data?.documents_by_status ?? []} labelKey="status" />
@@ -38,13 +38,13 @@ function AnalyticsCard({
   labelKey: 'status' | 'month';
 }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h2 className="text-lg font-semibold text-slate-900">{title}</h2>
+    <div className="vf-card">
+      <h2 className="vf-h2">{title}</h2>
       <div className="mt-3 space-y-2">
         {rows.map((row, i) => (
-          <div key={`${labelKey}-${i}`} className="flex items-center justify-between gap-2 rounded border border-slate-200 px-3 py-2 text-sm">
-            <span className="min-w-0 break-words text-slate-700">{row[labelKey] ?? 'unknown'}</span>
-            <span className="shrink-0 font-semibold">{row.total}</span>
+          <div key={`${labelKey}-${i}`} className="flex items-center justify-between gap-2 rounded-2xl border border-[#E2DDD5] bg-white px-5 py-4 text-sm transition-all duration-200 hover:border-[#2D6A4F] dark:border-[#2D3E2D] dark:bg-[#1E2E1E] dark:hover:border-[#52B788]">
+            <span className="min-w-0 break-words text-[#4A5568] dark:text-[#A8B2A8]">{row[labelKey] ?? 'unknown'}</span>
+            <span className="shrink-0 font-semibold text-[#2D6A4F] dark:text-[#52B788]">{row.total}</span>
           </div>
         ))}
       </div>

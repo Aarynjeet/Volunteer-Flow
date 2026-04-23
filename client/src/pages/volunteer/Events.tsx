@@ -42,54 +42,54 @@ export function VolunteerEvents() {
     return map;
   }, [applicationsQuery.data]);
 
-  if (eventsQuery.isLoading || applicationsQuery.isLoading) {
-    return <div className="text-sm text-slate-600">Loading events...</div>;
-  }
+  if (eventsQuery.isLoading || applicationsQuery.isLoading) return <div className="text-sm text-[#4A5568] dark:text-[#A8B2A8]">Loading events...</div>;
 
   if (eventsQuery.isError || applicationsQuery.isError) {
     return <div className="text-sm text-red-600">Failed to load events. Please try again.</div>;
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900">Events</h1>
-        <p className="mt-1 text-sm text-slate-600">Browse upcoming events and submit applications.</p>
+        <h1 className="vf-h1">Events</h1>
+        <p className="mt-1 text-sm font-medium text-[#4A5568] dark:text-[#A8B2A8]">Browse upcoming events and submit applications.</p>
       </div>
 
       {applyMutation.isError ? (
-        <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+        <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-400">
           Could not apply to this event. You may already have an application.
         </div>
       ) : null}
       {successMessage ? (
-        <div className="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+        <div className="rounded-xl border border-green-200 bg-[#D8F3DC] px-3 py-2 text-sm text-[#2D6A4F] dark:border-green-800 dark:bg-green-950 dark:text-[#52B788]">
           {successMessage}
         </div>
       ) : null}
 
-      <div className="grid gap-4">
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {(eventsQuery.data ?? []).map((event) => {
           const app = applicationMap.get(event.id);
           return (
-            <div key={event.id} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div key={event.id} className="overflow-hidden rounded-2xl border border-[#E2DDD5] bg-white shadow-sm transition-all duration-200 hover:border-[#2D6A4F] hover:shadow-md dark:border-[#2D3E2D] dark:bg-[#1E2E1E] dark:hover:border-[#52B788]">
+              <div className="relative h-32 bg-[#F2F0E8] dark:bg-[#1A2E1A]">
+                <span className="absolute right-3 top-3 rounded-full bg-[#D8F3DC] px-3 py-1 text-xs font-semibold text-[#2D6A4F]">{event.category}</span>
+              </div>
+              <div className="p-6">
                 <div className="min-w-0">
-                  <h2 className="break-words text-lg font-semibold text-slate-900">{event.title}</h2>
-                  <p className="break-words mt-1 text-sm text-slate-600">{event.location}</p>
-                  <p className="break-words mt-1 text-sm text-slate-600">{new Date(event.date).toLocaleString()}</p>
-                  <p className="break-words mt-2 text-sm text-slate-700">{event.description}</p>
+                  <h2 className="break-words text-xl font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">{event.title}</h2>
+                  <p className="mt-1 text-sm text-[#4A5568] dark:text-[#A8B2A8]">{event.location}</p>
+                  <p className="mt-1 text-sm text-[#4A5568] dark:text-[#A8B2A8]">{new Date(event.date).toLocaleString()}</p>
+                  <p className="mt-2 text-sm text-[#4A5568] dark:text-[#A8B2A8]">{event.description}</p>
                 </div>
-                <div className="flex w-full flex-col gap-2 sm:w-auto sm:items-end">
-                  <span className="rounded-full bg-slate-100 px-2 py-1 text-center text-xs text-slate-700">{event.category}</span>
+                <div className="mt-4 flex w-full flex-col gap-2 sm:w-auto sm:items-start">
                   {app ? (
-                    <span className="rounded-full bg-indigo-50 px-2 py-1 text-center text-xs font-medium text-indigo-700">
+                    <span className="inline-flex w-fit rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
                       {app.status}
                     </span>
                   ) : (
                     <button
                       type="button"
-                      className="w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50 sm:w-auto"
+                      className="vf-btn-primary w-full text-sm disabled:opacity-50 sm:w-auto"
                       onClick={() => applyMutation.mutate(event.id)}
                       disabled={applyMutation.isPending}
                     >
@@ -98,11 +98,15 @@ export function VolunteerEvents() {
                   )}
                   <button
                     type="button"
-                    className="w-full text-xs text-slate-600 underline sm:w-auto"
+                    className="w-full text-left text-xs font-semibold text-[#2D6A4F] hover:underline dark:text-[#52B788] sm:w-auto"
                     onClick={() => setSelectedEvent(event)}
                   >
                     View details
                   </button>
+                  <div className="mt-1 flex w-full items-center justify-between text-xs">
+                    <span className="text-[#4A5568] dark:text-[#A8B2A8]">{new Date(event.date).toLocaleDateString()}</span>
+                    <span className="font-semibold text-[#2D6A4F] hover:underline dark:text-[#52B788]">View Details</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -111,13 +115,13 @@ export function VolunteerEvents() {
       </div>
 
       {selectedEvent ? (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="text-lg font-semibold text-slate-900">{selectedEvent.title}</h3>
-          <p className="mt-2 text-sm text-slate-700">{selectedEvent.description}</p>
-          <p className="mt-2 text-sm text-slate-600">Volunteers needed: {selectedEvent.required_volunteers}</p>
+        <div className="vf-card">
+          <h3 className="vf-h2">{selectedEvent.title}</h3>
+          <p className="mt-2 text-sm text-[#4A5568] dark:text-[#A8B2A8]">{selectedEvent.description}</p>
+          <p className="mt-2 text-sm text-[#4A5568] dark:text-[#A8B2A8]">Volunteers needed: {selectedEvent.required_volunteers}</p>
           <button
             type="button"
-            className="mt-4 rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white"
+            className="vf-btn-secondary mt-4 text-sm"
             onClick={() => setSelectedEvent(null)}
           >
             Close

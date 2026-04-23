@@ -35,20 +35,20 @@ export function VolunteerHours() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900">Hours</h1>
-        <p className="mt-1 text-sm text-slate-600">Submit and track volunteer hours.</p>
+        <h1 className="vf-h1">Hours</h1>
+        <p className="mt-1 text-sm font-medium text-[#4A5568] dark:text-[#A8B2A8]">Submit and track volunteer hours.</p>
       </div>
       <form
-        className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+        className="rounded-2xl border border-[#E2DDD5] bg-white p-8 shadow-sm dark:border-[#2D3E2D] dark:bg-[#1E2E1E]"
         onSubmit={(e) => {
           e.preventDefault();
           submitMutation.mutate();
         }}
       >
-        <div className="grid gap-3 md:grid-cols-3">
-          <select className="w-full rounded border border-slate-300 px-3 py-2 text-sm" value={eventId} onChange={(e) => setEventId(e.target.value ? Number(e.target.value) : '')}>
+        <div className="grid gap-4 md:grid-cols-3">
+          <select className="vf-input" value={eventId} onChange={(e) => setEventId(e.target.value ? Number(e.target.value) : '')}>
             <option value="">Select event</option>
             {(eventsQuery.data ?? []).map((event) => (
               <option key={event.id} value={event.id}>
@@ -56,21 +56,24 @@ export function VolunteerHours() {
               </option>
             ))}
           </select>
-          <input className="w-full rounded border border-slate-300 px-3 py-2 text-sm" value={hours} onChange={(e) => setHours(e.target.value)} placeholder="Hours (e.g. 2.5)" />
-          <button type="submit" className="w-full rounded bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50 md:w-auto" disabled={submitMutation.isPending || !eventId || !hours}>
+          <input className="vf-input" value={hours} onChange={(e) => setHours(e.target.value)} placeholder="Hours (e.g. 2.5)" />
+          <button type="submit" className="vf-btn-primary w-full md:w-auto disabled:opacity-50" disabled={submitMutation.isPending || !eventId || !hours}>
             Submit
           </button>
         </div>
-        {submitMutation.isError ? <div className="mt-2 text-sm text-red-600">Failed to submit hours.</div> : null}
+        {submitMutation.isError ? <div className="mt-2 text-sm text-red-600 dark:text-red-400">Failed to submit hours.</div> : null}
       </form>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900">My submissions</h2>
+      <div className="vf-card">
+        <h2 className="vf-h2">My submissions</h2>
         <div className="mt-3 space-y-2">
-          {(hoursQuery.data ?? []).map((item) => (
-            <div key={item.id} className="rounded border border-slate-200 p-3 text-sm">
-              <div className="break-words font-medium text-slate-900">{item.event?.title ?? `Event #${item.event_id}`}</div>
-              <div className="text-slate-600">
+          {(hoursQuery.data ?? []).map((item, index) => (
+            <div key={item.id} className={`rounded-2xl border border-[#E2DDD5] bg-white p-6 text-sm transition-all duration-200 hover:border-[#2D6A4F] dark:border-[#2D3E2D] dark:bg-[#1E2E1E] dark:hover:border-[#52B788] ${index < 3 ? 'border-l-4 border-l-[#2D6A4F] dark:border-l-[#52B788]' : ''}`}>
+              <div className="flex items-center gap-3">
+                <span className="text-lg font-black text-[#2D6A4F] dark:text-[#52B788]">#{index + 1}</span>
+                <div className="break-words font-semibold text-[#1A1A1A] dark:text-[#F0EDE4]">{item.event?.title ?? `Event #${item.event_id}`}</div>
+              </div>
+              <div className="text-[#4A5568] dark:text-[#A8B2A8]">
                 {item.hours} hours • {item.status}
               </div>
             </div>

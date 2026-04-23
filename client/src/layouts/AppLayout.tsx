@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import { Logo } from '../components/Logo';
 import { NotificationBell } from '../components/NotificationBell';
+import { ThemeToggle } from '../components/ThemeToggle';
 import { useAuth } from '../context/AuthContext';
 
 type NavItem = { to: string; label: string };
@@ -41,29 +43,29 @@ export function AppLayout() {
   }, [user]);
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="vf-page flex min-h-screen">
       {mobileMenuOpen ? (
         <button
           type="button"
           aria-label="Close mobile menu"
-          className="fixed inset-0 z-30 bg-slate-900/40 lg:hidden"
+          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
           onClick={() => setMobileMenuOpen(false)}
         />
       ) : null}
       <aside
         className={`${
           expanded ? 'lg:w-56' : 'lg:w-16'
-        } fixed inset-y-0 left-0 z-40 w-64 shrink-0 border-r border-slate-200 bg-white transition-transform duration-200 lg:static lg:translate-x-0 ${
+        } fixed inset-y-0 left-0 z-40 w-64 shrink-0 border-r border-[#E2DDD5] bg-[#F2F0E8] transition-transform duration-200 dark:border-[#2D3E2D] dark:bg-[#1A2E1A] lg:static lg:translate-x-0 ${
           mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex h-14 items-center justify-between border-b border-slate-200 px-2">
-          <div className={`truncate text-sm font-semibold text-slate-900 ${expanded ? 'lg:block' : 'lg:hidden'} block`}>
+        <div className="flex h-14 items-center justify-between border-b border-[#E2DDD5] px-2 dark:border-[#2D3E2D]">
+          <div className={`truncate text-sm font-semibold text-[#1A1A1A] dark:text-[#F0EDE4] ${expanded ? 'lg:block' : 'lg:hidden'} block`}>
             Menu
           </div>
           <button
             type="button"
-            className="rounded-md p-2 text-slate-600 hover:bg-slate-100"
+            className="rounded-xl p-2 text-[#4A5568] transition-colors hover:bg-[#D8F3DC] dark:text-[#A8B2A8] dark:hover:bg-[#1E2E1E]"
             aria-label="Toggle sidebar"
             onClick={() => setExpanded((v) => !v)}
           >
@@ -72,14 +74,16 @@ export function AppLayout() {
             </svg>
           </button>
         </div>
-        <nav className="space-y-1 p-2">
+        <nav className="space-y-2 p-2">
           {items.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `block rounded-md px-3 py-2 text-sm font-medium ${
-                  isActive ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-slate-100'
+                `block rounded-xl px-3 py-2 text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'bg-[#D8F3DC] text-[#2D6A4F] dark:bg-[#1E2E1E] dark:text-[#52B788]'
+                    : 'text-[#4A5568] hover:bg-[#D8F3DC] hover:text-[#2D6A4F] dark:text-[#A8B2A8] dark:hover:bg-[#1E2E1E] dark:hover:text-[#52B788]'
                 } ${expanded ? 'lg:text-left' : 'lg:text-center'} text-left`
               }
               title={item.label}
@@ -93,11 +97,11 @@ export function AppLayout() {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex min-h-14 items-center justify-between border-b border-slate-200 bg-white px-3 py-2 sm:px-4 lg:px-6">
+        <header className="flex items-center justify-between border-b border-[#E2DDD5] bg-[#FAFAF7] px-6 py-3 dark:border-[#2D3E2D] dark:bg-[#0F1A0F]">
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               type="button"
-              className="rounded-md p-2 text-slate-600 hover:bg-slate-100 lg:hidden"
+              className="rounded-xl p-2 text-[#4A5568] transition-colors hover:bg-[#D8F3DC] dark:text-[#A8B2A8] dark:hover:bg-[#1E2E1E] lg:hidden"
               aria-label="Open mobile menu"
               onClick={() => setMobileMenuOpen(true)}
             >
@@ -105,21 +109,25 @@ export function AppLayout() {
                 <path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <div className="text-base font-semibold text-slate-900 sm:text-lg">VolunteerFlow</div>
+            <div className="flex items-center gap-2.5">
+              <Logo className="shrink-0" />
+              <div className="text-xl font-bold text-[#2D6A4F] dark:text-[#52B788]">VolunteerFlow</div>
+            </div>
           </div>
           <div className="flex items-center justify-end gap-2 sm:gap-3">
+            <ThemeToggle />
             <NotificationBell />
-            <div className="hidden max-w-36 truncate text-sm text-slate-700 sm:block">{user?.name}</div>
+            <div className="hidden max-w-36 truncate text-sm text-[#4A5568] dark:text-[#A8B2A8] sm:block">{user?.name}</div>
             <button
               type="button"
-              className="rounded-md bg-slate-900 px-2 py-2 text-xs font-medium text-white hover:bg-slate-800 sm:px-3 sm:text-sm"
+              className="vf-btn-secondary px-3 py-2 text-xs sm:text-sm"
               onClick={() => void logout()}
             >
               Logout
             </button>
           </div>
         </header>
-        <main className="flex-1 p-3 sm:p-4 lg:p-6">
+        <main className="flex-1 px-6 py-8">
           <Outlet />
         </main>
       </div>
